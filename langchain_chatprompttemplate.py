@@ -11,7 +11,9 @@ chat_template = ChatPromptTemplate([
     # HumanMessage(content='')
 ])
 
-prompt = chat_template.format(domain='astronomy',topic='solar eclipse')
+prompt = chat_template.invoke({
+    'domain':'astronomy',
+    'topic':'solar eclipse'})
 # print(prompt)
 
 chatmodel = ChatOllama(model='llama3.2:3b', temperature=0.5)
