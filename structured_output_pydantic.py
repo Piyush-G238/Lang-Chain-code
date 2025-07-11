@@ -20,7 +20,7 @@ class Review(BaseModel):
     cons: Optional[list[str]] = Field(default=None, description='Write down all the cons inside a list')
     name: Optional[str] = Field(default=None, description='Write the name of the reviewer')
 
-chatmodel = ChatOllama(model='llama3.2:3b',temperature=0)
+chatmodel = ChatOllama(model='gemma3:latest',temperature=0)
 
 structured_model = chatmodel.with_structured_output(Review)
 

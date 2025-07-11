@@ -3,7 +3,7 @@ from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 
-chatmodel = ChatOllama(model='llama3.2:3b',temperature=0.2)
+chatmodel = ChatOllama(model='gemma3:latest',temperature=0.2)
 
 class Person(BaseModel):
     name: str = Field(description='Name of the person')
@@ -13,16 +13,12 @@ class Person(BaseModel):
 parser = PydanticOutputParser(pydantic_object=Person)
 
 template = PromptTemplate(
-    template="""
-Generate a fictional person with a name, age, and city.
-Respond ONLY with the following format:
-{format}
-Do not include any explanation or schema.
-    """,
+    template="Generate a fictional person with a name, age, and city.\nRespond ONLY with the following format:\n{format}.\nDo not include any explanation or schema.",
     partial_variables={'format':parser.get_format_instructions()}
 )
 
-# prompt = template.format()
+prompt = template.format()
+# print(prompt)
 
 # response = chatmodel.invoke(prompt)
 # print(response.content)
