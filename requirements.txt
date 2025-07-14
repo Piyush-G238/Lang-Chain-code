@@ -7,3 +7,6 @@ bs4
 chromadb
 faiss-cpu
 wikipedia
+ddgs
+duckduckgo-search
+langchain-experimental

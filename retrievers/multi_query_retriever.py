@@ -26,17 +26,21 @@ vectorstore = Chroma.from_documents(
 )
 
 # simple_retriever = vectorstore.as_retriever(kwargs={'k':4,'lambda_mult':0.5})
-# query = 'How to improve health?'
+# query = 'How black holes are formed'
 # result_docs = simple_retriever.invoke(query)
 # print(result_docs)
 
-chatmodel = ChatOllama(model='llama3.2:3b',temperature='0.8')
+chatmodel = ChatOllama(model='llama3.2:3b',temperature='0')
 
 multiquery_retriever = MultiQueryRetriever.from_llm(
-    retriever=vectorstore.as_retriever(kwargs={'k':3}),
+    retriever=vectorstore.as_retriever(kwargs={'k':2}),
     llm=chatmodel
 )
 
-query = 'How to improve energy level and stamina?'
+query = 'Facts on black holes'
 
-multiquery_retriever.invoke()
+result = multiquery_retriever.invoke(query)
+print(result)
+
+# for i, doc in enumerate(result):
+#     print(i+1, doc.page_content)
