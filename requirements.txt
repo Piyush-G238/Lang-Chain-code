@@ -4,3 +4,6 @@ ollama
 langchain-community
 pypdf
 bs4
+chromadb
+faiss-cpu
+wikipedia
