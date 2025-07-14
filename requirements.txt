@@ -3,3 +3,4 @@ langchain-ollama
 ollama
 langchain-community
 pypdf
+bs4
