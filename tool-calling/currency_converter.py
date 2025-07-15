@@ -34,7 +34,7 @@ chatmodel = ChatOllama(model='llama3.2:3b')
 tool_model = chatmodel.bind_tools([get_currency_conversion_factor, convert])
 
 messages = [
-    HumanMessage('What is current conversion rate between USD and INR')
+    HumanMessage('What is current conversion rate between USD and INR and on the basis of that, what is 15 USD in INR?')
 ]
 
 ai_response = tool_model.invoke(messages)
@@ -43,7 +43,19 @@ messages.append(ai_response)
 
 actual_tool_calls = ai_response.tool_calls
 today_str = datetime.now().strftime('%Y-%m-%d')
+conversion_rate = 0.0
 for tool_call in actual_tool_calls:
     if tool_call['name'] == 'get_currency_conversion_factor':
         response1 = get_currency_conversion_factor.invoke(tool_call)
-        json.loads(response1.rates)[today_str]['']
+        target_curr = tool_call['args']['target_curr']
+        # print(response1.content)
+        conversion_rate = json.loads(response1.content)['rates'][today_str][target_curr]
+        # print(conversion_rate)
+        messages.append(response1)
+    if tool_call['name'] == 'convert':
+        tool_call['args']['conversion_rate'] = conversion_rate
+        respone2 = convert(tool_call)
+        messages.append(tool_call)
+
+final_response = tool_model.invoke(messages)
+print(final_response.content)
